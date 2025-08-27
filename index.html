@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flexbox Playground</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Flexbox Playground</h1>
+    <p>Tweak the controls to see Flexbox change in real-time.</p>
+  </header>
+
+  <main class="layout">
+    <!-- Controls -->
+    <section class="panel" aria-labelledby="container-controls-heading">
+      <h2 id="container-controls-heading">Container Controls</h2>
+
+      <div class="grid">
+        <label>
+          Flex Direction
+          <select id="flexDirection">
+            <option>row</option>
+            <option>row-reverse</option>
+            <option>column</option>
+            <option>column-reverse</option>
+          </select>
+        </label>
+
+        <label>
+          Flex Wrap
+          <select id="flexWrap">
+            <option>nowrap</option>
+            <option>wrap</option>
+            <option>wrap-reverse</option>
+          </select>
+        </label>
+
+        <label>
+          Justify Content
+          <select id="justifyContent">
+            <option>flex-start</option>
+            <option>flex-end</option>
+            <option>center</option>
+            <option>space-between</option>
+            <option>space-around</option>
+            <option>space-evenly</option>
+          </select>
+        </label>
+
+        <label>
+          Align Items
+          <select id="alignItems">
+            <option>stretch</option>
+            <option>flex-start</option>
+            <option>flex-end</option>
+            <option selected>center</option>
+            <option>baseline</option>
+          </select>
+        </label>
+
+        <label>
+          Align Content <small>(wrap only)</small>
+          <select id="alignContent">
+            <option>stretch</option>
+            <option>flex-start</option>
+            <option>flex-end</option>
+            <option>center</option>
+            <option>space-between</option>
+            <option>space-around</option>
+          </select>
+        </label>
+
+        <label>
+          Gap (<span id="gapValue">12</span>px)
+          <input id="gap" type="range" min="0" max="48" value="12" />
+        </label>
+
+        <label>
+          Container Padding (<span id="padValue">16</span>px)
+          <input id="containerPadding" type="range" min="0" max="48" value="16" />
+        </label>
+
+        <label>
+          # Items (3–5)
+          <input id="itemCount" type="range" min="3" max="5" value="4" />
+        </label>
+      </div>
+
+      <div class="buttons">
+        <button id="shuffle">Shuffle Colors / Labels</button>
+        <button id="reset">Reset</button>
+      </div>
+    </section>
+
+    <!-- Item Controls -->
+    <section class="panel" aria-labelledby="item-controls-heading">
+      <h2 id="item-controls-heading">Selected Item Controls</h2>
+
+      <div class="grid">
+        <label>
+          Select Item
+          <select id="selectedItem"></select>
+        </label>
+
+        <label>
+          Order
+          <input id="order" type="number" value="0" step="1" />
+        </label>
+
+        <label>
+          Flex Grow
+          <input id="grow" type="number" value="0" step="1" min="0" />
+        </label>
+
+        <label>
+          Flex Shrink
+          <input id="shrink" type="number" value="1" step="1" min="0" />
+        </label>
+
+        <label>
+          Flex Basis (e.g. 120px, 30%, auto)
+          <input id="basis" type="text" value="auto" placeholder="auto | 120px | 30%" />
+        </label>
+
+        <label>
+          Align Self
+          <select id="alignSelf">
+            <option>auto</option>
+            <option>stretch</option>
+            <option>flex-start</option>
+            <option>flex-end</option>
+            <option selected>center</option>
+            <option>baseline</option>
+          </select>
+        </label>
+
+        <label>
+          Min Width (px)
+          <input id="minWidth" type="number" value="0" min="0" />
+        </label>
+
+        <label>
+          Max Width (px, 0 = none)
+          <input id="maxWidth" type="number" value="0" min="0" />
+        </label>
+      </div>
+    </section>
+
+    <!-- Preview / Demo -->
+    <section class="panel" aria-labelledby="preview-heading">
+      <h2 id="preview-heading">Preview</h2>
+
+      <div class="legend">
+        <span class="badge">Main axis</span> is controlled by <code>flex-direction</code>.
+        <span class="badge">Cross axis</span> is perpendicular to it.
+      </div>
+
+      <div id="flexContainer" class="flex-container" aria-live="polite" aria-label="Flex container preview">
+        <!-- Items inserted by JS -->
+      </div>
+
+      <details class="codeview">
+        <summary>Show current container CSS</summary>
+        <pre id="cssPreview" class="code"></pre>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Pro tip: use <code>gap</code> for spacing, prefer <code>flex</code> shorthands, and be mindful of
+      the current axis when aligning.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
