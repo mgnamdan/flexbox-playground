@@ -48,7 +48,7 @@ const DEFAULTS = {
     grow: 0,
     shrink: 1,
     basis: "auto",
-    alignSelf: "center",
+    alignSelf: "auto",
     minWidth: 0,
     maxWidth: 0, // 0 = none
   },
@@ -72,7 +72,13 @@ function setItemStyles(el, { order, grow, shrink, basis, alignSelf, minWidth, ma
   el.style.flexGrow = Number(grow);
   el.style.flexShrink = Number(shrink);
   el.style.flexBasis = basis;
-  el.style.alignSelf = alignSelf;
+
+  if (alignSelf && alignSelf !== "auto") {
+    el.style.alignSelf = alignSelf;
+  } else {
+    el.style.removeProperty("align-self");
+  }
+
   el.style.minWidth = minWidth ? `${Number(minWidth)}px` : null;
   el.style.maxWidth = maxWidth ? `${Number(maxWidth)}px` : null;
 
