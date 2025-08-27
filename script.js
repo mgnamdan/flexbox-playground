@@ -16,6 +16,7 @@ const controls = {
   containerPadding: $("#containerPadding"),
   padValue: $("#padValue"),
   itemCount: $("#itemCount"),
+  itemCountValue: $("#itemCountValue"), // NEW live label
   shuffle: $("#shuffle"),
   reset: $("#reset"),
 };
@@ -40,7 +41,7 @@ const DEFAULTS = {
     alignContent: "stretch",
     gap: 12,
     padding: 16,
-    itemCount: 4,
+    itemCount: 8, // UPDATED default to showcase wrapping better
   },
   item: {
     order: 0,
@@ -54,9 +55,7 @@ const DEFAULTS = {
 };
 
 /* ====== Demo Setup ====== */
-const palette = [
-  8, 24, 45, 160, 205, 260, 300, 345
-];
+const palette = [8, 24, 45, 160, 205, 260, 300, 345];
 
 function createItem(i){
   const el = document.createElement("div");
@@ -64,7 +63,6 @@ function createItem(i){
   el.dataset.index = i;
   el.style.setProperty("--h", palette[i % palette.length]);
   el.textContent = `Item ${i + 1}`;
-  // Store item styles in dataset for ease of sync
   setItemStyles(el, { ...DEFAULTS.item });
   return el;
 }
@@ -78,7 +76,6 @@ function setItemStyles(el, { order, grow, shrink, basis, alignSelf, minWidth, ma
   el.style.minWidth = minWidth ? `${Number(minWidth)}px` : null;
   el.style.maxWidth = maxWidth ? `${Number(maxWidth)}px` : null;
 
-  // Keep a tiny state on element for quick reads
   el.dataset.order = order;
   el.dataset.grow = grow;
   el.dataset.shrink = shrink;
@@ -139,6 +136,7 @@ function syncContainerControls(){
   controls.itemCount.value = DEFAULTS.container.itemCount;
   controls.gapValue.textContent = DEFAULTS.container.gap;
   controls.padValue.textContent = DEFAULTS.container.padding;
+  if (controls.itemCountValue) controls.itemCountValue.textContent = DEFAULTS.container.itemCount; // NEW
 }
 
 /* ====== Item bindings ====== */
@@ -184,12 +182,13 @@ function applySelectedItemStyles(){
 itemControls.selectedItem.addEventListener("change", syncSelectedItemControls);
 
 controls.itemCount.addEventListener("input", (e) => {
-  mountItems(Number(e.target.value));
+  const n = Number(e.target.value);
+  if (controls.itemCountValue) controls.itemCountValue.textContent = n; // NEW live label
+  mountItems(n);
   applyContainerStyles();
 });
 
 controls.shuffle.addEventListener("click", () => {
-  // Shuffle colors and text labels
   const items = $$(".item", container);
   const numbers = items.map((_, i) => i+1).sort(() => Math.random() - 0.5);
   items.forEach((el, i) => {
@@ -226,7 +225,6 @@ function updateCSSPreview(){
 `}`
   ];
 
-  // If a specific item deviates from defaults, show its CSS too
   const el = getSelectedItem();
   if(el){
     const itemRules = [];
